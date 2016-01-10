@@ -6,6 +6,20 @@ $http.get('/contactList').success(function(res) {
   $scope.contactList = res;
 });
 
+$scope.addContact = function() {
+  console.log($scope.contact);
+  $http.post('/contactList', $scope.contact)
+  .success(function(res) {
+    console.log(res);
+    refresh();
+  });
+}
+
+$scope.remove = function(id) {
+  console.log(id);
+  $http.delete('/contactlist')
+};
+
   // person1 = {
   //   name: 'Gillie',
   //   email: 'g@g.com',

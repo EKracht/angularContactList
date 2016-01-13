@@ -1,47 +1,55 @@
-function AppCtrl($scope, $http) {
-  console.log('Hello world from controller');
+'use strict';
 
-$http.get('/contactList')
-.success(function(res) {
-  console.log('I got the data I requested');
-  $scope.contactList = res;
-});
+var app = angular.module('contactList', []);
 
-$scope.addContact = function() {
-  console.log($scope.contact);
-  $http.post('/contactList', $scope.contact)
+app.controller('AppCtrl', ['$scope','$http', function($scope, $http) {
+  
+  var refresh = function() {
+  $http.get('/contactList')
   .success(function(res) {
-    console.log(res);
-    refresh();
-  });
-}
+    console.log("I got the data I requested");
+    $scope.contactList = res;
+    $scope.contact = "";
+    });
+  };
 
-$scope.remove = function(id) {
-  console.log(id);
-  $http.delete('/contactList/' + id)
-  .success(function(res) {
-    refresh();
-  });
-};
+  refresh();
 
-$scope.edit = function(id) {
-  console.log(id);
-  $http.get('/contactList/' + id)
-  .success(function(res) {
-    $scope.contact = res;
-  });
-};
+  $scope.add = function() {
+    console.log($scope.contact);
+    $http.post('/contactList', $scope.contact)
+    .success(function(res) {
+      console.log(res);
+      refresh();
+    });
+  }
 
-$scope.update = function() {
-  console.log($scope.contact._id);
-  $http.put('/contactList/' + $scope.contact._id, $scope.contact)
-  .success(function(res) {
-    refresh();
-  });
-};
+  $scope.remove = function(id) {
+    console.log(id);
+    $http.delete('/contactList/' + id)
+    .success(function(res) {
+      refresh();
+    });
+  };
 
-$scope.deselect = function() {
-  $scope.contact = "";
-}
+  $scope.edit = function(id) {
+    console.log(id);
+    $http.get('/contactList/' + id)
+    .success(function(res) {
+      $scope.contact = res;
+    });
+  };
 
-}
+  $scope.update = function() {
+    console.log($scope.contact._id);
+    $http.put('/contactList/' + $scope.contact._id, $scope.contact)
+    .success(function(res) {
+      refresh();
+    });
+  };
+
+  $scope.deselect = function() {
+    $scope.contact = "";
+  }
+
+}]);

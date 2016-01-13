@@ -36,7 +36,7 @@ router.get('/:id', function(req, res) {
 router.put('/:id', function(req, res) {
   var id = req.params.id;
   db.contactlist.findAndModify({query: {_id: mongojs.ObjectId(id)},
-    update: {$set: {name: req.body.name, email: req.body.email, phone: req.body.phone}},
+    update: {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
     new: true}, function(err, data) {
       res.json(data);
     });
